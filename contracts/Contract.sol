@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract Voters {
+contract Citizen {
    struct Candidate {
         string name;
         uint256 voteCount;
@@ -11,13 +11,14 @@ contract Voters {
         string desc;
         uint256 voteAgenda;
     }
+    mapping(address => bool) public voters;
     mapping(uint256 => Agenda) public agendas;
     mapping(address => bool) public AgendaVoted;
     uint256 public agendaCount;
 
     Candidate[] public candidates;
     address owner;
-    mapping(address => bool) public voters;
+    
 
     uint256 public votingStart;
     uint256 public votingEnd;
@@ -92,20 +93,5 @@ contract Voters {
             result[i - 1] = agenda;
         }
         return result;
-    }
-    function getWinner() public view returns (string memory winnerName, uint256 totalVotes){
-        require(candidates.length > 0, "No candidate available.");
-
-        uint256 maxVotes = 0;
-        uint256 winnerIndex = 0;
-
-        for(uint256 i = 0; i < candidates.length; i++){
-            if(candidates[i].voteCount > maxVotes){
-                maxVotes = candidates[i].voteCount;
-                winnerIndex = i;
-            }
-        }
-        winnerName = candidates[winnerIndex].name;
-        totalVotes = candidates[winnerIndex].voteCount;
     }
 }
